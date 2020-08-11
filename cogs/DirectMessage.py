@@ -7,7 +7,7 @@ async def dmSomeone(self,userID):
     if userObj.dm_channel == None:
         await userObj.create_dm()
     slideInto = userObj.dm_channel
-    await slideInto.send("Pls send")
+    await slideInto.send("https://www.youtube.com/watch?v=Nd5ieJcM_Tg")
 
 class DirectMessage(commands.Cog):
     def __init__(self,client):
