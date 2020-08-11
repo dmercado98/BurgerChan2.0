@@ -14,7 +14,12 @@ class VoiceClient(commands.Cog):
         for voiceChannel in guildVoice:
             for vcMembers in voiceChannel.members:
                 if vcMembers.id == userId:
-                    self.discordVoiceClient = await voiceChannel.connect()
+                    if self.discordVoiceClient != None :
+                        if voiceChannel != self.discordVoiceClient.channel:
+                            await self.discordVoiceClient.disconnect()
+                            self.discordVoiceClient = await voiceChannel.connect()
+                    else:
+                        self.discordVoiceClient = await voiceChannel.connect()
                     break
 
     @commands.command(pass_context = True)
