@@ -18,15 +18,5 @@ class DirectMessage(commands.Cog):
         await dmSomeone(self,ctx.author.id)
         print("Dmd " + ctx.author.display_name)
 
-    @commands.Cog.listener()
-    async def on_message(self,message):
-        if message.author == self.client.user:
-            return
-        else:
-            if message.channel.type == discord.ChannelType.private:
-                await message.channel.send("This is our Dms you cant do this")
-                print(message.content)
-
-
 def setup(client):
     client.add_cog(DirectMessage(client))
