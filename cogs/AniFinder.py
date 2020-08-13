@@ -3,10 +3,10 @@ import discord
 from discord.ext import commands
 
 # just for searching anime
-async def searchManga(self):
+async def searchManga( self, media, name ):
     query = '''
 
-    query( $page:Int, $perPage:Int, $id:Int )
+    query( $page:Int, $perPage:Int, $search:Str )
     {
         Page ( page:$page, perPage:$perPage )
         {
@@ -18,7 +18,7 @@ async def searchManga(self):
                 hasNextPage
                 perPage
             }
-            media( id:$id, type:MANGA )
+            media( $search:$search, type:MANGA )
             {
                 Found: siteUrl
             }
@@ -29,11 +29,9 @@ async def searchManga(self):
     # I do Found: siteUrl and it seemed to work in Postman but idk
     # questions for later i guess lol
 
-    variables = 
+    variable = 
     {
-        # I didn't think we need the id so i changed it to title but idk what values to actually give it
-        # that's why i don't do it for searchAnime just yet
-        'title': 'some title str idk' 
+        'search': title 
     }
 
     url = 'https://graphql.anilist.co'
@@ -42,10 +40,10 @@ async def searchManga(self):
     response = requests.post(url, json={'query': query})
 
 # just searches anime
-async def searchAnime(self):
+async def searchAnime(self, media, name):
     query = '''
 
-    query( $page:Int, $perPage:Int, $id:Int )
+    query( $page:Int, $perPage:Int, $search:Str )
     {
         Page ( page:$page, perPage:$perPage )
         {
@@ -57,13 +55,18 @@ async def searchAnime(self):
                 hasNextPage
                 perPage
             }
-            media( id:$id, type:ANIME )
+            media( $search:$search, type:MANGA )
             {
                 Found: siteUrl
             }
         }
     }
     '''
+    
+    variable = 
+    {
+        'search': title 
+    }
 
     url = 'https://graphql.anilist.co'
 
@@ -81,12 +84,13 @@ class AniFinder( commands.Cog ):
         # figure out if its anime or manga based on flag??
             if media == MANGA:
                 await searchManga( self, media, name )
+                print( "Finding " + media + " name..." )
             else: # assuming these are the only two things getting searched
                 await searchAnime( self, media, name )
+                print( "Finding " + media + " name..." )
 
-
-
-
+searchManga( MANGA, nisekoi )
+searchAnime( ANIME, my hero academia ) 
 
 def setup(client):
     client.add_cog(AniFinder(client))
