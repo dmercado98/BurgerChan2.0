@@ -31,7 +31,7 @@ async def searchManga( self, media, name ):
 
     variables = 
     {
-        'search': title 
+        'search': name 
     }
 
     url = 'https://graphql.anilist.co'
@@ -65,7 +65,7 @@ async def searchAnime(self, media, name):
     
     variables = 
     {
-        'search': title 
+        'search': name 
     }
 
     url = 'https://graphql.anilist.co'
