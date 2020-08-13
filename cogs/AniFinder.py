@@ -29,7 +29,7 @@ async def searchManga( self, media, name ):
     # I do Found: siteUrl and it seemed to work in Postman but idk
     # questions for later i guess lol
 
-    variable = 
+    variables = 
     {
         'search': title 
     }
@@ -37,7 +37,7 @@ async def searchManga( self, media, name ):
     url = 'https://graphql.anilist.co'
 
     # Make the HTTP Api request
-    response = requests.post(url, json={'query': query})
+    response = requests.post(url, json={'query': query, 'variables': variables})
 
 # just searches anime
 async def searchAnime(self, media, name):
@@ -63,7 +63,7 @@ async def searchAnime(self, media, name):
     }
     '''
     
-    variable = 
+    variables = 
     {
         'search': title 
     }
@@ -71,7 +71,7 @@ async def searchAnime(self, media, name):
     url = 'https://graphql.anilist.co'
 
     # Make the HTTP Api request
-    response = requests.post(url, json={'query': query})
+    response = requests.post(url, json={'query': query, 'variables': variables})
 
 # i think this is all it needs if i remember
 class AniFinder( commands.Cog ):
