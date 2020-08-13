@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 
 # just for searching anime
-async def searchManga( self, media, name ):
+async def searchManga( media, name ):
     query = '''
 
     query( $page:Int, $perPage:Int, $search:Str )
@@ -29,8 +29,7 @@ async def searchManga( self, media, name ):
     # I do Found: siteUrl and it seemed to work in Postman but idk
     # questions for later i guess lol
 
-    variables = 
-    {
+    variables = {
         'search': name 
     }
 
@@ -40,7 +39,7 @@ async def searchManga( self, media, name ):
     response = requests.post(url, json={'query': query, 'variables': variables})
 
 # just searches anime
-async def searchAnime(self, media, name):
+async def searchAnime( media, name ):
     query = '''
 
     query( $page:Int, $perPage:Int, $search:Str )
@@ -63,8 +62,7 @@ async def searchAnime(self, media, name):
     }
     '''
     
-    variables = 
-    {
+    variables = {
         'search': name 
     }
 
@@ -82,15 +80,15 @@ class AniFinder( commands.Cog ):
     async def finder( self, media, name ): # probs not the right parameters?? i'll figure it out later
         print( "Searching AniList for: " + media )
         # figure out if its anime or manga based on flag??
-            if media == MANGA:
-                await searchManga( self, media, name )
-                print( "Finding " + media + " name..." )
-            else: # assuming these are the only two things getting searched
-                await searchAnime( self, media, name )
-                print( "Finding " + media + " name..." )
+        if media == MANGA:
+            await searchManga( media, name )
+            print( "Finding " + media + " name..." )
+        else: # assuming these are the only two things getting searched
+            await searchAnime( media, name )
+            print( "Finding " + media + " name..." )
 
-searchManga( MANGA, nisekoi )
-searchAnime( ANIME, my hero academia ) 
+searchManga( "MANGA", "nisekoi" )
+searchAnime( "ANIME", "my hero academia" ) 
 
 def setup(client):
     client.add_cog(AniFinder(client))
