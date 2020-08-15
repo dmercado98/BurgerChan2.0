@@ -79,7 +79,8 @@ async def searchAnime( media, name ):
 # i think this is all it needs if i remember
 class AniFinder( commands.Cog ):
     def __init__( self, client ):
-        self.client = client 
+        self.client = client
+        self.request = None
 
     @commands.command()
     async def finder( self, ctx, *args ): # probs not the right parameters?? i'll figure it out later
@@ -88,6 +89,7 @@ class AniFinder( commands.Cog ):
         if args[0].lower() == "manga":
             await searchManga( args[0], args[1] )
             print( "Finding " + args[0] + " name..." )
+            # ctx.channel.send( "Found: " + self.request" )
         elif args[0].lower() == "anime": # assuming these are the only two things getting searched
             await searchAnime( args[0], args[1] )
             print( "Finding " + args[0] + " name..." )
