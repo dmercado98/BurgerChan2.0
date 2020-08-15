@@ -85,12 +85,14 @@ class AniFinder( commands.Cog ):
     async def finder( self, ctx, *args ): # probs not the right parameters?? i'll figure it out later
         print( "Searching AniList for: " + args[1] )
         # figure out if its anime or manga based on flag??
-        if args[0] == "MANGA":
+        if args[0].lower() == "manga":
             await searchManga( args[0], args[1] )
             print( "Finding " + args[0] + " name..." )
-        else: # assuming these are the only two things getting searched
+        elif args[0].lower() == "anime": # assuming these are the only two things getting searched
             await searchAnime( args[0], args[1] )
             print( "Finding " + args[0] + " name..." )
+        else:
+            print( "Please include the \"anime\" or \"manga\" flag before the title" )
 
 
 
