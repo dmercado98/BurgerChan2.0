@@ -2,6 +2,8 @@
 import discord 
 from discord.ext import commands
 import requests
+import sys
+import aiohttp
 
 # just for searching anime
 async def searchManga( media, name ):
@@ -39,7 +41,11 @@ async def searchManga( media, name ):
     url = 'https://graphql.anilist.co'
 
     # Make the HTTP Api request
-    r = requests.post(url, json={'query': query, 'variables': variables})
+    # r = requests.post(url, json={'query': query, 'variables': variables})
+
+        # gives a syntax error?? just tryin to make the request asynchronously
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={'query': query, 'variables': variables})
     print(r.content)
 # just searches anime
 async def searchAnime( media, name ):
@@ -74,27 +80,37 @@ async def searchAnime( media, name ):
     url = 'https://graphql.anilist.co'
 
     # Make the HTTP Api request
-    r = requests.post(url, json={'query': query, 'variables': variables})
+    #r = requests.post(url, json={'query': query, 'variables': variables})
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={'query': query, 'variables': variables})
     print(r.content)
-# i think this is all it needs if i remember
+
 class AniFinder( commands.Cog ):
     def __init__( self, client ):
         self.client = client
         self.request = None
 
     @commands.command()
-    async def finder( self, ctx, *args ): # probs not the right parameters?? i'll figure it out later
-        print( "Searching AniList for: " + args[1] )
-        # figure out if its anime or manga based on flag??
-        if args[0].lower() == "manga":
-            await searchManga( args[0], args[1] )
-            print( "Finding " + args[0] + " name..." )
-            # ctx.channel.send( "Found: " + self.request" )
-        elif args[0].lower() == "anime": # assuming these are the only two things getting searched
-            await searchAnime( args[0], args[1] )
-            print( "Finding " + args[0] + " name..." )
+    async def finder( self, ctx, *args ):
+        # to grab all the words in the title
+        title = " ".join( args[1:] )
+        print( "Searching AniList for: " + title )
+        print( "Finding " + args[0] + " name..." )
+
+        if args[0].lower() == "manga":        
+            # it's still not saving the request
+            self.request = await searchManga( args[0], title )
+            
+            await ctx.channel.send( self.request.content )
+
+        elif args[0].lower() == "anime":
+            self.request = await searchAnime( args[0], title )
+            # send message to channel
+            await ctx.channel.send( self.request.content )
+            
         else:
             print( "Please include the \"anime\" or \"manga\" flag before the title" )
+            await ctx.channel.send( "Please include the \"anime\" or \"manga\" flag before the title" )
 
 
 
