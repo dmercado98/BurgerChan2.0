@@ -1,4 +1,3 @@
-# don't think i need anymore imports
 import discord 
 from discord.ext import commands
 import requests
