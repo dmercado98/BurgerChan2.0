@@ -3,6 +3,7 @@ from discord.ext import commands
 import requests
 import sys
 import aiohttp
+import json
 
 # just for searching anime
 async def searchManga( media, name ):
